@@ -1,7 +1,4 @@
 package com.novozhilova.datastructures.list;
-
-
-import java.sql.PreparedStatement;
 import java.util.StringJoiner;
 
 public class LindkedList implements List{
@@ -11,31 +8,21 @@ public class LindkedList implements List{
 
     @Override
     public void add(Object value) {
-        if(value==null){
-            throw new IndexOutOfBoundsException();
-        }
-        Node newNode = new Node(value);
-        if (isEmpty()) {
-            head = tail = newNode;
-        }
-        tail.next=newNode;
-        newNode.prev=tail;
-        tail=newNode;
-        size++;
+        add(value,size);
     }
 
     @Override
     public void add(Object value, int index) {
         if(value==null){
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Значення яке ви хочете помістити в ліст не має бути null.");
         }
-        if (index<0||index>=size){
+        if (index<0||index>size){
             throw new IndexOutOfBoundsException("Індекс виходить по за границі Ліста");
         }
         Node newNode= new Node(value);
         if (isEmpty()){
             head=tail=newNode;
-        }else if(index==size-1){
+        }else if(index==size){
             tail.next=newNode;
             newNode.prev=tail;
             tail=newNode;
@@ -62,11 +49,20 @@ public class LindkedList implements List{
 
     @Override
     public Object remove(int index) {
+        Node current=head;
         if (index<0||index>=size||isEmpty()){
             throw new IndexOutOfBoundsException("Індекс виходить по за границі Ліста");
         }
+        if (index==0){
+            head = head. next;
+            head.prev = null;
 
-        Node current=head;
+        }else if(index==size-1){
+            current=tail;
+            tail = tail.prev;
+            tail.next = null;
+
+        }else{
         int count=0;
         while (current.next!=null){
             if(count==index){
@@ -74,14 +70,13 @@ public class LindkedList implements List{
                 Node prevNode = current.prev;
                 nextNode.prev = prevNode;
                 prevNode.next=nextNode;
-                size--;
                 break;
-
             }
             current=current.next;
             count++;
         }
-
+        }
+        size--;
         return current.value;
     }
 
@@ -104,6 +99,9 @@ public class LindkedList implements List{
 
     @Override
     public Object set(Object value, int index) {
+        if(value==null){
+            throw new IndexOutOfBoundsException("Значення яке ви хочете помістити в ліст не має бути null.");
+        }
         if (index<0||index>=size){
             throw new IndexOutOfBoundsException("Індекс виходить по за границі Ліста");
         }
@@ -145,14 +143,7 @@ public class LindkedList implements List{
 
     @Override
     public boolean contains(Object value) {
-        Node current=head;
-        while (current.next!=null) {
-            if (current.value.equals(value)) {
-                return true;
-            }
-            current=current.next;
-        }
-        return false;
+        return indexOf(value)!=-1;
     }
 
     @Override

@@ -30,15 +30,35 @@ public class LinkedListTest {
 
     @Test
     public void testAddByIndex() {
-        lindkedList.add("A");
+        lindkedList.add("A",0);
         lindkedList.add("B");
-
         lindkedList.add("C",1);
+        lindkedList.add("D",3);
 
-        assertEquals(3,lindkedList.size());
-        //assertEquals("[A,C,B]",lindkedList.toString());
+        assertEquals(4,lindkedList.size());
+        assertEquals("[A,C,B,D]",lindkedList.toString());
     }
 
+    @Test
+    public void testAddByIndexHead() {
+        lindkedList.add("A");
+        lindkedList.add("B");
+        lindkedList.add("C");
+        lindkedList.add("D",0);
+
+        assertEquals(4,lindkedList.size());
+        assertEquals("[D,A,B,C]",lindkedList.toString());
+    }
+    @Test
+    public void testAddByIndexTail() {
+        lindkedList.add("A");
+        lindkedList.add("B");
+        lindkedList.add("C");
+        lindkedList.add("D",3);
+
+        assertEquals(4,lindkedList.size());
+        assertEquals("[A,B,C,D]",lindkedList.toString());
+    }
     @Test
     public void testIndexOutOfBoundsExceptionWhenAddNullBeIndex(){;
         Assertions.assertThrows(IndexOutOfBoundsException.class,() ->{
@@ -46,28 +66,44 @@ public class LinkedListTest {
         });
     }
 
-    @Test
-    public void testCorrectWorkAddObjectWhenSizeMoreLenghtArrayList(){
-        lindkedList.add("A");
-        lindkedList.add("B");
-        lindkedList.add("A");
-        lindkedList.add("B");
-        lindkedList.add("A");
-        lindkedList.add("B");
-
-        assertEquals(6,lindkedList.size());
-
-    }
 
     @Test
     public void testRemoveObject(){
         lindkedList.add("A");
         lindkedList.add("B");
         lindkedList.add("C");
+        lindkedList.add("D");
+        lindkedList.add("E");
 
         assertEquals("B",lindkedList.remove(1));
-        assertEquals(2,lindkedList.size());
-        assertEquals("[A,C]",lindkedList.toString());
+        assertEquals(4,lindkedList.size());
+        assertEquals("[A,C,D,E]",lindkedList.toString());
+    }
+
+    @Test
+    public void testRemoveObjectTail(){
+        lindkedList.add("A");
+        lindkedList.add("B");
+        lindkedList.add("C");
+        lindkedList.add("D");
+        lindkedList.add("E");
+
+        assertEquals("E",lindkedList.remove(4));
+        assertEquals(4,lindkedList.size());
+        assertEquals("[A,B,C,D]",lindkedList.toString());
+    }
+
+    @Test
+    public void testRemoveObjectHead(){
+        lindkedList.add("A");
+        lindkedList.add("B");
+        lindkedList.add("C");
+        lindkedList.add("D");
+        lindkedList.add("E");
+
+        assertEquals("A",lindkedList.remove(0));
+        assertEquals(4,lindkedList.size());
+        assertEquals("[B,C,D,E]",lindkedList.toString());
     }
 
     @Test
@@ -116,7 +152,7 @@ public class LinkedListTest {
     }
 
     @Test
-    public void testIsEmptyReturnTrueOnNewArrayList(){
+    public void testIsEmptyReturnTrueOnNewList(){
         assertTrue(lindkedList.isEmpty());
     }
 
